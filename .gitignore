@@ -205,3 +205,10 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Latex
+*.aux
+*.bbl
+*.blg
+*.out
+*.synctex.gz
