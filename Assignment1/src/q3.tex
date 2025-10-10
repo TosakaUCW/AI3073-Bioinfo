@@ -1,0 +1,71 @@
+\section*{Problem 3}
+Align
+\[
+    \texttt{Sequence\_A}=\texttt{GATTCATA}\quad(\text{length }8), \qquad
+    \texttt{Sequence\_B}=\texttt{GGATCGA}\quad(\text{length }7),
+\]
+with scoring: match $=+5$, mismatch $=-2$, indel (gap) $=-6$. Construct the DP matrix and report the optimal (global) alignment score.
+
+\paragraph{Algorithm (global alignment).}
+Let $A_1\ldots A_n$ and $B_1\ldots B_m$ be the two sequences ($n=8$, $m=7$).
+Define the score matrix $D\in\mathbb{Z}^{(n+1)\times(m+1)}$:
+\[
+    \begin{aligned}
+         & D(0,0)=0,\qquad D(i,0)=i\cdot(-6),\quad D(0,j)=j\cdot(-6), \\
+         & D(i,j)=\max\!\Big\{
+        \underbrace{D(i\!-\!1,j\!-\!1)+s(A_i,B_j)}_{\text{diag (match/mismatch)}},\
+        \underbrace{D(i\!-\!1,j)+(-6)}_{\text{up (gap in $B$)}},\
+        \underbrace{D(i,j\!-\!1)+(-6)}_{\text{left (gap in $A$)}}
+        \Big\},
+    \end{aligned}
+\]
+where $s(x,y)=+5$ if $x=y$, otherwise $-2$.
+
+\paragraph{Dynamic programming matrix.}\mbox{}\\[0.5ex]
+
+% Below is $D(i,j)$ with row/column headers \texttt{-} for the initial gap row/column.
+% The top header labels \texttt{B} (columns) and the left header labels \texttt{A} (rows).
+% The bottom-right entry (in bold) is the optimal global score.
+
+% \newline
+\medskip
+% \small
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{@{}c c | *{8}{r}@{}}
+    \toprule
+               &            & \texttt{-} & \texttt{G} & \texttt{G} & \texttt{A} & \texttt{T} & \texttt{C} & \texttt{G} & \texttt{A} \\
+    \midrule
+               & \texttt{-} & 0          & -6         & -12        & -18        & -24        & -30        & -36        & -42        \\
+    \texttt{G} &            & -6         & 5          & -1         & -7         & -13        & -19        & -25        & -31        \\
+    \texttt{A} &            & -12        & -1         & 3          & 4          & -2         & -8         & -14        & -20        \\
+    \texttt{T} &            & -18        & -7         & -3         & 1          & 9          & 3          & -3         & -9         \\
+    \texttt{T} &            & -24        & -13        & -9         & -5         & 6          & 7          & 1          & -5         \\
+    \texttt{C} &            & -30        & -19        & -15        & -11        & 0          & 11         & 5          & -1         \\
+    \texttt{A} &            & -36        & -25        & -21        & -10        & -6         & 5          & 9          & 10         \\
+    \texttt{T} &            & -42        & -31        & -27        & -16        & -5         & -1         & 3          & 7          \\
+    \texttt{A} &            & -48        & -37        & -33        & -22        & -11        & -7         & -3         & \textbf{8} \\
+    \bottomrule
+\end{tabular}
+\normalsize
+
+\paragraph{Optimal score.}
+The optimal global alignment score is
+\[
+    \boxed{8}.
+\]
+
+\paragraph{One optimal alignment (traceback).}
+A valid traceback yielding the score $8$ is:
+\[
+    \begin{array}{@{}c@{}}
+        \texttt{G A T T C A T A} \\
+        \texttt{G G A T C - G A}
+    \end{array}
+    \quad\Rightarrow\quad
+    5 - 2 - 2 + 5 + 5 - 6 - 2 + 5 \;=\; 8.
+\]
+% (Match $=+5$ at positions 1,4,5,8; mismatches at 2,3,7; one gap at position 6.)
+
+% \paragraph{Remarks.}
+% This matrix implements the Needleman--Wunsch global alignment with a linear gap penalty of $-6$. Any alignment achieving the bottom-right score $D(8,7)=8$ is optimal.

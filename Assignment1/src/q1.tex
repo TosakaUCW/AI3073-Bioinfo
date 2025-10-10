@@ -1,0 +1,101 @@
+\section*{Problem 1}
+
+Given the reads
+\[
+    \texttt{\$ATGC},\ \texttt{ATGC},\ \texttt{TGCAT},\ \texttt{ATGCT},\ \texttt{GCTAG},\ \texttt{CTAGC},\ \texttt{TAGCA},\ \texttt{AGCA\$},\ \texttt{ATGCA},\ \texttt{GCATG},\ \texttt{TGCTA},\ \texttt{CATGC},
+\]
+construct the de~Bruijn graph with \emph{4-mers as nodes} (so edges are 5-mers) and output the assembled sequence.
+
+\paragraph{Method (concise).}
+With \(k=4\)-mer nodes, each observed 5-mer becomes a directed edge from its 4-mer prefix to its 4-mer suffix. The contig is recovered by an Eulerian path that traverses each edge once; spelling the path yields the assembled sequence.
+
+\paragraph{Step 1: 5-mers (edges).}
+Sliding a window of length 5 over all reads and deduplicating yields the set of edges:
+\[
+    \{\ \texttt{\$ATGC},\ \texttt{TGCAT},\ \texttt{ATGCT},\ \texttt{GCTAG},\ \texttt{CTAGC},\ \texttt{TAGCA},\ \texttt{AGCA\$},\ \texttt{ATGCA},\ \texttt{GCATG},\ \texttt{TGCTA},\ \texttt{CATGC}\ \}.
+\]
+
+\paragraph{Step 2: Edge mapping (prefix~\(\to\)~suffix).}
+\[
+    \begin{aligned}
+        \texttt{\$ATGC} & :~\texttt{\$ATG}\to\texttt{ATGC} &
+        \texttt{TGCAT}  & :~\texttt{TGCA}\to\texttt{GCAT}  &
+        \texttt{ATGCT}  & :~\texttt{ATGC}\to\texttt{TGCT}  &
+        \texttt{GCTAG}  & :~\texttt{GCTA}\to\texttt{CTAG}        \\
+        \texttt{CTAGC}  & :~\texttt{CTAG}\to\texttt{TAGC}  &
+        \texttt{TAGCA}  & :~\texttt{TAGC}\to\texttt{AGCA}  &
+        \texttt{AGCA\$} & :~\texttt{AGCA}\to\texttt{GCA\$} &
+        \texttt{ATGCA}  & :~\texttt{ATGC}\to\texttt{TGCA}        \\
+        \texttt{GCATG}  & :~\texttt{GCAT}\to\texttt{CATG}  &
+        \texttt{TGCTA}  & :~\texttt{TGCT}\to\texttt{GCTA}  &
+        \texttt{CATGC}  & :~\texttt{CATG}\to\texttt{ATGC}  &   &
+    \end{aligned}
+\]
+
+\paragraph{Step 3: Degree check and Eulerian path.}
+All nodes are balanced except:
+\[
+    \texttt{\$ATG}:\ \text{out}=1,\ \text{in}=0\quad(\text{start}),\qquad
+    \texttt{GCA\$}:\ \text{in}=1,\ \text{out}=0\quad(\text{end}).
+\]
+Hence an Eulerian path exists from \texttt{\$ATG} to \texttt{GCA\$}. One valid traversal is:
+\[
+    \texttt{\$ATG}\to\texttt{ATGC}\to\texttt{TGCA}\to\texttt{GCAT}\to\texttt{CATG}\to\texttt{ATGC}\to\texttt{TGCT}\to\texttt{GCTA}\to\texttt{CTAG}\to\texttt{TAGC}\to\texttt{AGCA}\to\texttt{GCA\$}.
+\]
+
+\paragraph{Step 4: Assembled sequence (spell the path).}
+Start with the first 4-mer \texttt{\$ATG}; each step appends the last character of the next node. The result is
+\[
+    \boxed{\texttt{\$ATGCATGCTAGCA\$}}
+\]
+
+\bigskip
+
+\begin{center}
+    \resizebox{\textwidth}{!}{%  % 自动调整到页面宽度
+        \begin{tikzpicture}[
+                >=Latex,
+                node distance=1.7cm and 1.8cm,
+                every node/.style={font=\ttfamily, draw, rounded corners=2pt, inner sep=3pt},
+                edge label/.style={font=\ttfamily\small, sloped, above},
+                bend/.style={bend left=12},
+                bendrev/.style={bend right=14}
+            ]
+            % Nodes (4-mers)
+            \node (START) {\$ATG};
+            \node (ATGC) [right=of START] {ATGC};
+            \node (TGCT) [right=of ATGC] {TGCT};
+            \node (GCTA) [right=of TGCT] {GCTA};
+            \node (CTAG) [right=of GCTA] {CTAG};
+            \node (TAGC) [right=of CTAG] {TAGC};
+            \node (AGCA) [right=of TAGC] {AGCA};
+
+            \node (TGCA) [below=3.6cm of ATGC] {TGCA};
+            \node (GCAT) [right=of TGCA] {GCAT};
+            \node (CATG) [right=of GCAT] {CATG};
+            \node (END) [below=3.6cm of AGCA] {GCA\$};
+
+            % Edges (5-mers)
+            \draw[->] (START) -- node[edge label]{\$ATGC} (ATGC);
+            \draw[->] (ATGC) -- node[edge label]{ATGCT} (TGCT);
+            \draw[->] (TGCT) -- node[edge label]{TGCTA} (GCTA);
+            \draw[->] (GCTA) -- node[edge label]{GCTAG} (CTAG);
+            \draw[->] (CTAG) -- node[edge label]{CTAGC} (TAGC);
+            \draw[->] (TAGC) -- node[edge label]{TAGCA} (AGCA);
+            \draw[->] (AGCA) -- node[edge label]{AGCA\$} (END);
+
+            \draw[->] (ATGC) to[] node[edge label,below]{ATGCA} (TGCA);
+            \draw[->] (TGCA) -- node[edge label]{TGCAT} (GCAT);
+            \draw[->] (GCAT) -- node[edge label]{GCATG} (CATG);
+            \draw[->] (CATG) to[] node[edge label,below]{CATGC} (ATGC);
+
+            % Start/end highlights
+            \node[draw=none, font=\small, anchor=north] at (START.south) {start};
+            \node[draw=none, font=\small, anchor=north] at (END.south) {end};
+
+        \end{tikzpicture}
+    }
+
+    \smallskip
+    Figure: de~Bruijn graph with 4-mer nodes and 5-mer edge labels.
+\end{center}
