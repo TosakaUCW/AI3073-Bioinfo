@@ -1,0 +1,60 @@
+\documentclass[12pt]{article}
+
+\usepackage{pgffor}
+
+% 字体和编码
+\usepackage[T1]{fontenc}
+\usepackage{courier}
+
+% 数学和符号
+\usepackage{amsmath, amssymb}
+
+% 页面布局
+\usepackage[margin=1in]{geometry}
+\usepackage{parskip}
+
+% 图形和表格
+\usepackage{graphicx}
+\graphicspath{{img/}}
+\usepackage{svg}           % requires --shell-escape to compile SVGs
+\usepackage{caption}
+\usepackage{booktabs, array}
+
+% TikZ
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,fit,shapes.multipart}
+
+% 超链接（应该在最后）
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, linkcolor=black, urlcolor=blue, citecolor=black}
+
+\title{Bioinfo Lab 2}
+\author{Bohan YANG, 2330016056}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\foreach \i in {1,...,12}{
+        % \begin{figure}[htbp]
+        % \centering
+        \begin{center}
+            \includegraphics[width=\textwidth, height=0.4\textheight, keepaspectratio]{\i.png}
+            \captionof{figure}{}
+        \end{center}
+        % \end{figure}
+    }
+
+% \clearpage
+
+Key genes in the network map to well-defined functions on GeneCards:
+\textbf{CALM2} encodes calmodulin, a Ca$^{2+}$ sensor regulating many enzymes and ion channels;
+\textbf{SNAP25} mediates synaptic vesicle exocytosis;
+\textbf{PAFAH1B1 (LIS1)} controls neuronal migration via dynein--microtubule regulation;
+\textbf{FTH1} is the ferritin heavy chain for cellular iron storage;
+\textbf{SLC24A1 (NCKX1)} is a K$^{+}$-dependent Na$^{+}$/Ca$^{2+}$ exchanger essential for phototransduction;
+\textbf{GNAS} encodes a G-protein $\alpha$-subunit driving cAMP signaling;
+and multiple mitochondrial energy genes---\textbf{COX5A}/\textbf{COX7A2} (complex IV),
+\textbf{SLC25A4}/\textbf{ANT1} (ADP/ATP carrier), \textbf{MDH1} (malate dehydrogenase)---underline enriched oxidative-phosphorylation and metabolic control in the hub set.
+
+\end{document}
