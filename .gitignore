@@ -212,3 +212,6 @@ __marimo__/
 *.blg
 *.out
 *.synctex.gz
+
+# some forbidden files
+Private/
