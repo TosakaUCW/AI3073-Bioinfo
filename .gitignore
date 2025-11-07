@@ -214,4 +214,4 @@ __marimo__/
 *.synctex.gz
 
 # some forbidden files
-Private/
+Private/Lab/Lab3/docs/Visium_Human_Breast_Cancer_filtered_feature_bc_matrix.h5ad
