@@ -28,9 +28,9 @@ for i in range(len(genes)):
 
 top3 = sorted(pairs, key=lambda x: x[2], reverse=True)[:3]
 
-print("Zi mat：\n", Zi.round(3))
-print("\nZj mat：\n", Zj.round(3))
-print("\nCLR mat：\n", CLR.round(3))
-print("\nTop 3 GGI：")
+print("Zi mat\n", Zi.round(3))
+print("\nZj mat\n", Zj.round(3))
+print("\nCLR mat\n", CLR.round(3))
+print("\nTop 3 GGI")
 for g1, g2, val in top3:
     print(f"{g1}-{g2}: {val:.3f}")
