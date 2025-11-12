@@ -1,0 +1,50 @@
+\section*{Question 4}
+
+\subsection*{(a) What is the major mutation signature contribute to AML?}
+
+According to the given matrix, AML is associated with \textbf{Signature 1} and \textbf{Signature 5}.
+
+\boxed{\textbf{Signature 1}} is the most dominant across all cancer types and typically shows stronger contribution in AML.
+
+\subsection*{(b) What is the major mutation type related to AML?}
+
+\boxed{\textbf{C>T}} is accounted for more than 10\% of all.
+
+\subsection*{(c) Signatures Dominated by T>A}
+
+\boxed{\textbf{Signature 22 and Signature 27}} are dominated by T>A, which is more than 10\%.
+
+\textbf{Associated Cancer Types}: Liver cancer, Urothelial carcinoma (Signature 22); Kidney clear cell carcinoma (Signature 27).
+
+\subsection*{(d) Model Design}
+
+\subsubsection*{Feature Representation}
+Each patient can be represented by:
+\begin{itemize}
+    \item \textbf{Raw mutation spectrum} (96-dimensional trinucleotide mutation frequencies), or
+    \item \textbf{Signature contributions} obtained from NMF ($H$ vector).
+\end{itemize}
+
+\subsubsection*{Model Choice}
+As far as the task is concerned, we can use a two-step model:
+
+\[
+    \textbf{NMF decomposition} \; \Rightarrow \; \textbf{Random Forest classifier}
+\]
+
+\subsubsection*{Procedure}
+\begin{enumerate}
+    \item Build matrix $X$ from patient mutation profiles.
+    \item Apply NMF to obtain $H$ (signature weights per patient).
+    \item Split the data into training and test sets.
+    \item Train a Random Forest or Logistic Regression model using $H$ as input and cancer type as target.
+    \item For a new patient, compute mutation profile $\rightarrow$ project to $H$ space $\rightarrow$ predict cancer type.
+\end{enumerate}
+
+\subsubsection*{Why This Model Fits the Task}
+\begin{itemize}
+    \item NMF provides biologically interpretable latent features (mutation signatures).
+    \item The classifier captures statistical relationships between signature patterns and cancer types.
+    \item The model can generalize to unseen patients with similar mutational patterns.
+    \item Probability outputs allow risk estimation and uncertainty quantification.
+\end{itemize}

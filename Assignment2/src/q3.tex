@@ -1,0 +1,45 @@
+\section*{Question 3}
+
+\lstinputlisting[language=Python, caption={q3.py}]{q3/q3.py}
+
+\paragraph{Row-wise positive $z$-scores ($Z_i$):}
+\[
+    Z_i=
+    \begin{bmatrix}
+        1.432 & 0.441 & 0     & 0     \\
+        0     & 1.637 & 0     & 0     \\
+        0     & 0.937 & 0.937 & 0     \\
+        0     & 0.228 & 0     & 1.396
+    \end{bmatrix}.
+\]
+
+\paragraph{Column-wise positive $z$-scores ($Z_j$):}
+\[
+    Z_j=
+    \begin{bmatrix}
+        1.432 & 0     & 0     & 0     \\
+        0.441 & 1.637 & 0.937 & 0.228 \\
+        0     & 0     & 0.937 & 0     \\
+        0     & 0     & 0     & 1.396
+    \end{bmatrix}.
+\]
+
+\paragraph{CLR matrix:}
+\[
+    CLR=
+    \begin{bmatrix}
+        2.025 & 0.441 & 0     & 0     \\
+        0.441 & 2.315 & 0.937 & 0.228 \\
+        0     & 0.937 & 1.325 & 0     \\
+        0     & 0.228 & 0     & 1.974
+    \end{bmatrix}.
+\]
+
+\subsection*{Top 3 GGI}
+\[
+    \begin{array}{rcl}
+        \textbf{1.}~(G2,G3) & : & CLR_{23}=0.937, \\[2pt]
+        \textbf{2.}~(G1,G2) & : & CLR_{12}=0.441, \\[2pt]
+        \textbf{3.}~(G2,G4) & : & CLR_{24}=0.228.
+    \end{array}
+\]

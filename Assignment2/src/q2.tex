@@ -1,0 +1,46 @@
+\section*{Question 2}
+
+\textbf{1. Degree of } x:
+\[
+    \deg(x) = 5
+\]
+since $x$ is connected to nodes $\{1,2,3,4,5\}$.
+
+\textbf{2. Betweenness centrality of } x:
+
+There are $\binom{5}{2} = 10$ possible pairs of leaf nodes.
+
+The number of shortest paths passing through $x$ is $9$.
+
+\[
+    B(x) = 9
+\]
+
+Normalized betweenness:
+\[
+    B_{\text{norm}}(x) = \frac{9}{10} = 0.9
+\]
+
+\textbf{3. Characteristic path length of the network:}
+
+Total number of node pairs:
+\[
+    \binom{6}{2} = 15
+\]
+
+Shortest path lengths:
+\[
+    \text{distance } = 1 \text{ for 6 pairs: } (x,1),(x,2),(x,3),(x,4),(x,5),(4,5)
+\]
+\[
+    \text{distance } = 2 \text{ for 9 pairs: all other leaf–leaf pairs.}
+\]
+
+Hence,
+\[
+    L = \frac{6 \times 1 + 9 \times 2}{15} = \frac{24}{15} = 1.6
+\]
+
+\boxed{
+    \deg(x) = 5, \quad B(x) = 9 \; (B_{\text{norm}} = 0.9), \quad L = 1.6
+}
