@@ -1,0 +1,137 @@
+\section*{Question 3}
+
+We model the normalized expression $Y$ for each gene by the simple linear
+regression
+\[
+    Y = b_0 + b_1 x + e ,
+\]
+where $x$ is an indicator of condition:
+\[
+    x =
+    \begin{cases}
+        0, & \text{control group C},   \\
+        1, & \text{treatment group T}.
+    \end{cases}
+\]
+For a binary predictor with equal numbers of samples in the two groups,
+$b_0$ and $b_1$ have the interpretation
+\[
+    b_0 = \text{mean expression in group C}, \qquad
+    b_1 = \text{mean}(Y\mid x=1) - \text{mean}(Y\mid x=0),
+\]
+i.e.\ $b_1$ is the difference between the treatment and control means.
+
+%---------------------------------------------------------------
+\subsubsection*{1. Estimation of $b_0$ and $b_1$}
+
+For each gene we compute
+\[
+    \bar{T} = \frac{T_1+T_2+T_3}{3}, \qquad
+    \bar{C} = \frac{C_1+C_2+C_3}{3},
+\]
+then set $b_0 = \bar{C}$ and $b_1 = \bar{T}-\bar{C}$.
+
+As an example, for Gene 1
+\[
+    \bar{T}_1 = \frac{4.1+5.2+2.8}{3} = 4.03\overline{3}, \qquad
+    \bar{C}_1 = \frac{5.6+3.7+3.8}{3} = 4.36\overline{6},
+\]
+so
+\[
+    b_{0,1} = 4.36\overline{6}, \qquad
+    b_{1,1} = 4.03\overline{3} - 4.36\overline{6} = -0.33\overline{3}.
+\]
+
+Carrying out the same calculation for all six genes yields
+
+\[
+    \begin{array}{c|ccc}
+        \text{Gene}   & \bar{C} & \bar{T} & b_1 = \bar{T}-\bar{C} \\ \hline
+        \text{Gene 1} & 4.37    & 4.03    & -0.33                 \\
+        \text{Gene 2} & 4.30    & 2.73    & -1.57                 \\
+        \text{Gene 3} & 4.50    & 2.93    & -1.57                 \\
+        \text{Gene 4} & 1.37    & 2.30    & 0.93                  \\
+        \text{Gene 5} & 3.07    & 2.57    & -0.50                 \\
+        \text{Gene 6} & 2.40    & 5.43    & 3.03
+    \end{array}
+\]
+
+(Values are rounded to two decimal places.)
+
+Thus the fitted regression models are
+\[
+    Y_g = b_{0,g} + b_{1,g}\,x + e_g, \qquad g=1,\dots,6.
+\]
+
+%---------------------------------------------------------------
+\subsubsection*{2. Testing for differential expression}
+
+We are told that, over all genes in the genome, the regression
+coefficients $b_1$ follow an approximately normal distribution
+(as illustrated by the given bell curve).  We treat the six
+estimated coefficients $b_{1,g}$ above as a sample from
+\[
+    b_1 \sim N(0,\sigma^2).
+\]
+
+First we estimate $\sigma$ using the sample standard deviation of the six
+coefficients:
+\[
+    \hat{\sigma}
+    = \sqrt{\frac{1}{n-1}\sum_{g=1}^n (b_{1,g}-\bar{b}_1)^2}
+    \approx 1.75,
+\]
+where $\bar{b}_1$ is the sample mean of the six $b_{1,g}$
+(which is essentially $0$).
+
+For each gene we then compute the standardized statistic
+\[
+    Z_g = \frac{b_{1,g}-\bar{b}_1}{\hat{\sigma}}
+    \approx \frac{b_{1,g}}{1.75}.
+\]
+
+The resulting $Z$-scores are
+
+\[
+    \begin{array}{c|cc}
+        \text{Gene}   & b_1   & Z_g \approx b_1/1.75 \\ \hline
+        \text{Gene 1} & -0.33 & -0.19                \\
+        \text{Gene 2} & -1.57 & -0.89                \\
+        \text{Gene 3} & -1.57 & -0.89                \\
+        \text{Gene 4} & 0.93  & 0.53                 \\
+        \text{Gene 5} & -0.50 & -0.29                \\
+        \text{Gene 6} & 3.03  & 1.73
+    \end{array}
+\]
+
+We perform a two-sided test of
+\[
+    H_0: b_1 = 0 \quad \text{vs.} \quad H_A: b_1 \neq 0
+\]
+at significance level $\alpha = 0.10$.
+For a standard normal distribution,
+\[
+    z_{0.95} \approx 1.645,
+\]
+so the rejection region is
+\[
+    |Z_g| > 1.645.
+\]
+
+Comparing the table above with this critical value, only Gene 6 has
+\[
+    |Z_6| \approx 1.73 > 1.645,
+\]
+while all other genes satisfy $|Z_g| < 1.645$.
+
+%---------------------------------------------------------------
+\subsubsection*{3. Conclusion}
+
+At the $10\%$ level of significance, only \textbf{Gene 6} shows a
+regression coefficient $b_1$ that lies in the outer $10\%$ of the
+overall $b_1$ distribution. Therefore,
+\[
+    \boxed{\text{Gene 6 is the only differentially expressed gene.}}
+\]
+All other genes are not significantly differentially expressed between
+conditions T and C at $\alpha = 0.1$.

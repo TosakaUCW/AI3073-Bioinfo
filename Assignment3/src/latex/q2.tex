@@ -1,0 +1,41 @@
+\section*{Question 2}
+
+\subsection*{1. Methodology}
+Data processing and analysis were conducted using Python (Scanpy and GSEApy packages).
+\begin{itemize}
+    \item \textbf{Clustering:} Cells were normalized, log-transformed, and clustered using the Leiden algorithm ($resolution=0.5$).
+    \item \textbf{Differential Expression:} The **Wilcoxon rank-sum test** was applied to compare the two largest clusters. Significant genes were filtered based on $P_{adj} < 0.05$ and $FoldChange > 2$.
+    \item \textbf{Enrichment:} Functional analysis was performed using the GO Biological Process database (Mouse).
+\end{itemize}
+
+\subsection*{2. Results}
+The two largest clusters identified were Cluster 0 (687 cells) and Cluster 1 (496 cells).
+
+A total of 366 differentially expressed genes were detected. The top upregulated genes in Cluster 0 include \textit{NRL}, \textit{NR2E3}, and \textit{RS1} (see Table 1).
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|c|c|c|}
+        \hline
+        \textbf{Gene} & \textbf{Adj. P-value}   & \textbf{Fold Change} \\
+        \hline
+        NRL           & $1.02 \times 10^{-141}$ & 6.69                 \\
+        NR2E3         & $1.18 \times 10^{-140}$ & 6.49                 \\
+        RS1           & $3.57 \times 10^{-138}$ & 6.37                 \\
+        ...           & ...                     & ...                  \\
+        \hline
+    \end{tabular}
+    \caption{Top differentially expressed genes between Cluster 0 and Cluster 1.}
+\end{table}
+
+The gene set enrichment analysis indicated that the most relevant biological function is \textbf{visual perception (GO:0007601)}. This aligns with the presence of photoreceptor-specific markers (e.g., \textit{NRL}) in the differential gene list.
+
+\subsection*{3. File Submission}
+The following files are attached:
+\begin{itemize}
+    \item \texttt{1\_cell\_cluster\_labels.csv}
+    \item \texttt{2\_differential\_expressed\_genes.csv}
+    \item \texttt{3\_enrichment\_analysis\_result.csv}
+\end{itemize}
+
+\includepdf[pages=-]{q2.pdf}
